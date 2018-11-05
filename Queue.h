@@ -70,6 +70,10 @@ public:
         friend bool operator!=(const Iterator& left, const Iterator& right) {
             return left.ptr != right.ptr;
         }
+        
+        friend bool operator==(const Iterator& left, const Iterator& right) {
+            return left.ptr == right.ptr;
+        }
 
     }; // end of iterator class
 
@@ -85,9 +89,9 @@ public:
     //NOT YET TESTED
 
     Queue(const Queue& other) {
-        this->front = copy_list(other->front);
-        this->rear = LastNode(this->front);
-        this->size = other->size;
+        front = copy_list(other.front);
+        rear = LastNode(front);
+        size = other.size;
     }
 
     //destructor
@@ -112,9 +116,9 @@ public:
         rear = front;
 
         //re-instantiate lhs attributes
-        this->front = copy_list(rhs.front);
-        this->rear = LastNode(this->front);
-        this->size = rhs->size;
+        front = copy_list(rhs.front);
+        rear = LastNode(front);
+        size = rhs->size;
 
         return *this;
     }
@@ -183,10 +187,12 @@ public:
     template <class U>
     friend ostream& operator<<(ostream& outs, const Queue<U>& q) {
         node<U>* walker = q.front;
+//        outs << "\n.. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. .. ..\n";
         while (walker != q.rear) {
-            outs << " [" << walker->_item << "]";
+            outs << " [" << walker->_item << "] ->";
             walker = walker->_next;
         }
+        outs << " |||";
         return outs;
     }
 
