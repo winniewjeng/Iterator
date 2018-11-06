@@ -195,6 +195,11 @@ public:
         outs << " |||";
         return outs;
     }
+    
+    // get the size of the queue
+    int get_size() {
+        return size;
+    }
 
     //an iterator to the start of List
     //

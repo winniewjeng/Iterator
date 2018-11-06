@@ -11,142 +11,17 @@ using namespace std;
 
 void test_iterator_queue();
 void test_iterator_stack();
-void menu_queue();
+void menu_queue(); // not yet implemented the cursor
 void print_menu();
 char get_select();
 
 int main(int argc, char** argv) {
 
-    //    test_iterator_queue();
-    //    test_iterator_stack();
-    menu_queue();
+    test_iterator_queue();
+    test_iterator_stack();
+
     return 0;
 
-}
-
-void menu_queue() {
-
-    Queue<int> q;
-
-
-    srand(time(NULL));
-
-    for (int i = 0; i < 5; i++) {
-        int num = rand() % 100 + 1;
-        q.push(num); // push a random num into queue
-    }
-
-
-
-    Queue<int>::Iterator it; // the goal of it is to iterate through the entire list
-    Queue<int>::Iterator cursor; // the goal of cursor is to iterate until finding a marked item in the list
-    cursor = q.Begin();
-
-    for (it = q.Begin(); it != q.End(); ++it) {
-        //        cout << *cursor << " ";
-        if (cursor.next() == q.End()) {
-            cout << "{" << *it << "} -> ";
-        }//looping through all the elements of List using the Iterator
-        else {
-            cout << "[" << *it << "] -> ";
-            ++cursor;
-        }
-        //increment the cursor as you increment the it
-
-    }
-    cout << "|||" << endl;
-
-
-    char select = 'H';
-
-
-    // implement the menu
-    while (select != 'E') {
-
-        //        cout << q << endl;
-
-
-        //printing the queue
-
-        print_menu();
-
-        select = get_select();
-
-        select = toupper(select);
-
-        //how do i implement cursor?
-        //cursor.next() is an iterator
-
-        if (select == 'R') {
-            int num = rand() % 100 + 1;
-            q.push(num);
-
-            cursor = q.Begin();
-            //print the menu
-            for (it = q.Begin(); it != q.End(); ++it) {
-                if (cursor.next() == q.End()) {
-                    cout << "{" << *cursor << "} -> ";
-                }//looping through all the elements of List using the Iterator
-                else {
-                    cout << "[" << *cursor << "] -> ";
-                    cursor++;
-                }
-            }
-        } else if (select == 'B') {
-           
-            cursor = q.Begin();
-            
-            for (it = q.Begin(); it != q.End(); ++it) {
-                if (cursor.next() == q.End()) {
-                    cout << "{" << *cursor << "} -> ";
-                }//looping through all the elements of List using the Iterator
-                else {
-                    cout << "[" << *cursor << "] -> ";
-                }
-            }
-        }
-
-
-
-        cout << "|||" << endl;
-
-
-    }
-
-
-
-
-    //    do {
-    //        //output the array:
-    //        
-    //        
-    //    } while(toupper(select) != 'E');
-
-    //    Queue<int>::Iterator it; //a queue Iterator object
-    //
-    //    for (it = q.Begin(); it != q.End(); it++) {
-    //        //looping through all the elements of List using the Iterator
-    //        cout << *it << " | ";
-    //    }
-
-
-
-}
-
-void print_menu() {
-    cout << "[R]andom [A]fter [B]efore [D]elete [S]earch [P]revious [N]ext [H]ome [E]nd ";
-}
-
-char get_select() {
-    char select;
-
-    do {
-        cin >> select;
-    } while (toupper(select) != 'R' && toupper(select) != 'A' && toupper(select) != 'B' &&
-            toupper(select) != 'D' && toupper(select) != 'S' && toupper(select) != 'P' &&
-            toupper(select) != 'N' && toupper(select) != 'H' && toupper(select) != 'E');
-
-    return select;
 }
 
 void test_iterator_queue() {
@@ -197,7 +72,7 @@ void test_iterator_stack() {
 
     cout << endl << "=======================" << endl;
 
-    cout << endl << "Testing a stack with iterator" << endl;
+    cout << endl << "Testing a stack with iterator:" << endl;
     cout << endl << "Testing a list of ints:" << endl;
 
     Stack<int> s;
@@ -236,4 +111,143 @@ void test_iterator_stack() {
 
     //    cout << sstr.top() << endl; //assertion failed because list is empty
 
+}
+
+void menu_queue() {
+
+    Queue<int> q;
+
+
+    srand(time(NULL));
+
+    for (int i = 0; i < 5; i++) {
+        int num = rand() % 100 + 1;
+        q.push(num); // push a random num into queue
+    }
+
+
+
+    Queue<int>::Iterator it; // the goal of it is to iterate through the entire list. It's only for printing purpose
+    Queue<int>::Iterator cursor; // the goal of cursor is to iterate until finding a marked item in the list. It's like a walker
+    cursor = q.Begin();
+
+    for (it = q.Begin(); it != q.End(); ++it) {
+        //        cout << *cursor << " ";
+        if (cursor.next() == q.End()) {
+            cout << "{" << *it << "} -> ";
+        }//looping through all the elements of List using the Iterator
+        else {
+            cout << "[" << *it << "] -> ";
+            ++cursor;
+        }
+        //increment the cursor as you increment the it
+
+    }
+    cout << "|||" << endl;
+
+
+    char select = 'H';
+
+    int pos = q.get_size();
+    // implement the menu
+    while (select != 'E') {
+
+        cout << "Current size of queue is " << pos << endl;
+
+        //cout << q << endl;
+
+        //printing the queue
+
+        print_menu();
+
+        select = get_select();
+
+        select = toupper(select);
+
+        //how do i implement cursor?
+        //cursor.next() is an iterator
+
+        if (select == 'R') {
+            int num = rand() % 100 + 1;
+            q.push(num);
+
+            pos++;
+
+            cursor = q.Begin();
+            it = q.Begin();
+
+            for (int i = 0; i < pos; i++) {
+
+                if (cursor.next() == q.End()) {
+                    cout << "{" << *cursor << "} -> ";
+                } else {
+                    cout << "[" << *cursor << "] -> ";
+                }
+                cursor++;
+                it++;
+            }
+            //print the menu
+            //            for (it = q.Begin(); it != q.End(); ++it) {
+            //                if (cursor.next() == q.End()) {
+            //                    cout << "{" << *cursor << "} -> ";
+            //                }//looping through all the elements of List using the Iterator
+            //                else {
+            //                    cout << "[" << *cursor << "] -> ";
+            //                    cursor++;
+            //                }
+            //            }
+        } else if (select == 'B') {
+            cursor = q.Begin();
+            //            it = q.Begin();
+
+            for (int i = 0; i < q.get_size(); i++) {
+                if (pos = i) {
+                    cout << "{" << *cursor << "} -> ";
+                } else {
+                    cout << "[" << *cursor << "] -> ";
+                }
+                cursor++;
+                //                it++;
+            }
+            //            cursor = q.Begin();
+            //            for (it = q.Begin(); it != q.End(); ++it) {
+            //                if (cursor.next() == q.End()) {
+            //                    cout << "{" << *cursor << "} -> ";
+            //                }//looping through all the elements of List using the Iterator
+            //                else {
+            //                    cout << "[" << *cursor << "] -> ";
+            //                }
+            //            }
+        }
+        cout << "|||" << endl;
+    }
+
+    //    do {
+    //        //output the array:
+    //        
+    //        
+    //    } while(toupper(select) != 'E');
+
+    //    Queue<int>::Iterator it; //a queue Iterator object
+    //
+    //    for (it = q.Begin(); it != q.End(); it++) {
+    //        //looping through all the elements of List using the Iterator
+    //        cout << *it << " | ";
+    //    }
+}
+
+void print_menu() {
+    cout << "[R]andom [A]fter [B]efore [D]elete [S]earch [P]revious [N]ext [H]ome [E]nd ";
+}
+
+char get_select() {
+    char select;
+
+    do {
+        cin >> select;
+    } while (toupper(select) != 'R' && toupper(select) != 'A' && toupper(select) != 'B' &&
+            toupper(select) != 'D' && toupper(select) != 'S' && toupper(select) != 'P' &&
+            toupper(select) != 'N' && toupper(select) != 'H' && toupper(select) != 'E');
+
+    return select;
 }
